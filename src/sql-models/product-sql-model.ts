@@ -4,7 +4,7 @@ import { json } from "stream/consumers";
 export const SqlProductModel = {
   // get all products
   async getAll() {
-    const [rows] = await pool.query<any[]>("SELECT * FROM products");
+    const [rows] = await pool.query("SELECT * FROM products");
     return rows;
   },
   // get products by id
