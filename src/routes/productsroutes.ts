@@ -13,12 +13,6 @@ const router = express.Router();
 // router.get("/first", firstMiddleware);
 router.get("/", getAllProductsController);
 router.get("/:id", getProductByIdController);
-function asyncHandler(fn: any) {
-  return function (req: Request, res: Response, next: NextFunction) {
-    Promise.resolve(fn(req, res, next)).catch(next);
-  };
-}
-
 router.post(
   "/",
   // (req: Request, res: Response, next: NextFunction) => {
@@ -29,7 +23,7 @@ router.post(
   //     next({ error: "Access Denied", status: 403 });
   //   }
   // },
-  asyncHandler(createProductController)
+  createProductController
 );
 router.put("/:id", updateProductController);
 router.delete("/:id", deleteProductController);

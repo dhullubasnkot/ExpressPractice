@@ -28,19 +28,41 @@ export const getProductByIdController = async (req: Request, res: Response) => {
 };
 
 export const createProductController = (req: Request, res: Response) => {
-  const { name, price, description } = req.body;
-  const newProduct = createProductDetails({ name, price, description });
-  res.status(201).json(newProduct);
+  // const { name, price, description } = req.body;
+  // const newProduct = createProductDetails({ name, price, description });
+  // res.status(201).json(newProduct);
+  const { name, description, price, stock_quantity } = req.body;
+  SqlProductModel.createProductDetails({
+    name,
+    description,
+    price,
+    stock_quantity,
+  })
+    .then((newProduct) => {
+      res.status(201).json(newProduct);
+    })
+    .catch((error: any) => {
+      console.error("Create error:", error.message || error);
+      res.status(500).json({ error: error.message || "Internal Server Error" });
+    });
 };
 
-export const updateProductController = (req: Request, res: Response) => {
+export const updateProductController = async (req: Request, res: Response) => {
   const id = parseInt(req.params.id);
-  const { name, price, description } = req.body;
+  const { name, description, price, stock_quantity } = req.body;
 
-  const updated = updateProductDetails(id, { name, price, description });
-  if (!updated) res.status(404).json({ error: "Product not found" });
-
-  res.status(200).json(updated);
+  try {
+    const updatedProduct = await SqlProductModel.UpdateProduct(id, {
+      name,
+      description,
+      price,
+      stock_quantity,
+    });
+    res.status(200).json(updatedProduct);
+  } catch (error: any) {
+    console.error("Update error:", error.message || error);
+    res.status(500).json({ error: error.message || "Internal Server Error" });
+  }
 };
 
 export const deleteProductController = async (req: Request, res: Response) => {
