@@ -14,3 +14,15 @@ export const getAllCategoriesController = async (
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+export const getCategoryBYIdController = async (
+  req: Request,
+  res: Response
+) => {
+  const id = parseInt(req.params.id);
+  try {
+    const categories = await sqlCategoryModel.getCategoryById(id);
+    res.status(200).json(categories);
+  } catch (error) {
+    res.status(404).json({ error: "Category Not Found:" });
+  }
+};
