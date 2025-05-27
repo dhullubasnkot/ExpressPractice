@@ -1,11 +1,4 @@
 import { Request, Response } from "express";
-import {
-  getAllProducts,
-  getProductById,
-  createProductDetails,
-  updateProductDetails,
-  deleteProductById,
-} from "../model/product";
 import { SqlProductModel } from "../sql-models/product-sql-model";
 
 export const getAllProductsController = async (req: Request, res: Response) => {

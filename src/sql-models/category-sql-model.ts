@@ -1,13 +1,13 @@
-import { get } from "http";
-import pool from "./mysql-client";
-import { json } from "stream/consumers";
+import pool from "./mysql-client"; // make sure your mysql-client is configured properly
 
 export const sqlCategoryModel = {
-  async getAllCategorys() {
+  // Get all categories
+  async getAllCategories() {
     const [rows] = await pool.query("SELECT * FROM categories");
     return rows;
   },
-  //Category by ID
+
+  // Get single category by ID
   async getCategoryById(id: number) {
     const [rows] = await pool.query<any[]>(
       "SELECT * FROM categories WHERE id = ?",
@@ -17,6 +17,30 @@ export const sqlCategoryModel = {
     if (rows.length === 0) {
       throw new Error(`Category with id ${id} not found`);
     }
+
     return rows[0];
+  },
+
+  // Get all products for a specific category ID
+  async getProductsByCategoryId(categoryId: number) {
+    const [rows] = await pool.query<any[]>(
+      `
+      SELECT 
+        p.*, 
+        c.id AS category_id,
+        c.name AS category_name
+      FROM 
+        products p
+      JOIN 
+        product_categories pc ON p.id = pc.product_id
+      JOIN 
+        categories c ON c.id = pc.category_id
+      WHERE 
+        c.id = ?
+      `,
+      [categoryId]
+    );
+
+    return rows;
   },
 };
