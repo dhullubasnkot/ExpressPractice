@@ -43,3 +43,35 @@ export const getProductsByCategoryIdController = async (
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+export const UpdateCategory = async (req: Request, res: Response) => {
+  try {
+    const id = parseInt(req.params.id);
+    const { name } = req.body;
+    const updatedCategory = await sqlCategoryModel.UpdateCategory(id, name);
+    res.status(200).json(updatedCategory);
+  } catch (error) {
+    console.error("Error Updating Category:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const CreateCategory = async (req: Request, res: Response) => {
+  try {
+    const { name } = req.body;
+    const newCategory = await sqlCategoryModel.CreateCategory(name);
+    res.status(201).json(newCategory);
+  } catch (error) {
+    console.error("Error Creating Category:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+export const DeleteCategory = async (req: Request, res: Response) => {
+  try {
+    const id = parseInt(req.params.id);
+    await sqlCategoryModel.DeleteCategory(id);
+    res.status(200).json({ message: "Category deleted successfully" });
+  } catch (error) {
+    console.error("Error Deleting Category:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};

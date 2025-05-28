@@ -43,4 +43,40 @@ export const sqlCategoryModel = {
 
     return rows;
   },
+  async UpdateCategory(id: number, name: string) {
+    const [rows] = await pool.query<any[]>(
+      "SELECT * FROM categories WHERE id = ?",
+      [id]
+    );
+    if (rows.length === 0) {
+      throw new Error(`Category with id ${id} not found`);
+    }
+    await pool.query("UPDATE categories SET name = ? WHERE id = ?", [name, id]);
+    return {
+      ...rows[0],
+      name: name,
+    };
+  },
+  async DeleteCategory(id: number) {
+    const [rows] = await pool.query<any[]>(
+      "SELECT * FROM categories WHERE id = ?",
+      [id]
+    );
+    if (rows.length === 0) {
+      throw new Error(`Category with id ${id} not found`);
+    }
+    await pool.query("DELETE FROM categories WHERE id = ?", [id]);
+    return { message: `Category with id ${id} deleted successfully` };
+  },
+
+  async CreateCategory(name: string) {
+    const [result]: any = await pool.query(
+      "INSERT INTO categories (name) VALUES (?)",
+      [name]
+    );
+    return {
+      id: result.insertId,
+      name: name,
+    };
+  },
 };
