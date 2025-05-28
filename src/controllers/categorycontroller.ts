@@ -29,7 +29,7 @@ export const getCategoryBYIdController = async (
   }
 };
 
-// ✅ Get products by category ID
+//  Get products by category ID
 export const getProductsByCategoryIdController = async (
   req: Request,
   res: Response
