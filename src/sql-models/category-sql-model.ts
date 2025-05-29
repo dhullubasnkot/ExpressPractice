@@ -57,6 +57,7 @@ export const sqlCategoryModel = {
       name: name,
     };
   },
+  // delete from id
   async DeleteCategory(id: number) {
     const [rows] = await pool.query<any[]>(
       "SELECT * FROM categories WHERE id = ?",
