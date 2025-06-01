@@ -1,12 +1,16 @@
 import express, { Request, Response, NextFunction } from "express";
 import productsroutes from "./routes/productsroutes";
 import categoriesroute from "./routes/categoriesroute";
+import orderroutes from "./routes/orderroutes";
+import userroute from "./routes/usersroute";
 const app = express();
 
 app.use(express.json());
 
 app.use("/products", productsroutes);
 app.use("/categories", categoriesroute);
+app.use("/users", userroute);
+app.use("/orders", orderroutes);
 
 app.use((error: any, req: Request, res: Response, next: NextFunction) => {
   console.log("Error Received", error);
