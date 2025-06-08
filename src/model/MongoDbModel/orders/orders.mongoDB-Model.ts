@@ -1,10 +1,16 @@
 import { Schema } from "mongoose";
 import mongoose from "mongoose";
+import { ref } from "process";
 
 const orderSchema = new Schema({
-  id: { type: Number, require: true },
-  userid: { type: Number, require: true },
-  createdAt: { type: Date, require: true },
+  order_id: { type: mongoose.Types.ObjectId, ref: "User", require: true },
+  user_id: { type: Number, require: true },
+  order_date: { type: Date, require: true },
+  total_amount: { type: Number, required: true },
+  status: {
+    type: String,
+    enum: ["shipped", "completed", "cancelled", "pending"],
+  },
 });
 
 const order = mongoose.model("User", orderSchema);

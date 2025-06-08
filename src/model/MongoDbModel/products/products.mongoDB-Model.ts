@@ -2,10 +2,16 @@ import { Schema } from "mongoose";
 import mongoose from "mongoose";
 
 const productSchema = new Schema({
-  productid: { type: Number, require: true },
-  productname: { type: String, require: true },
+  id: { type: Number, require: true },
+  name: { type: String, require: true },
   description: { type: String, require: true },
-  stock: { type: Number, require: true },
+  stock_quantity: { type: Number, require: true },
+  image: { type: String },
+  category_id: {
+    type: mongoose.Types.ObjectId,
+    ref: "Category",
+    required: true,
+  },
 });
 
 const product = mongoose.model("User", productSchema);
